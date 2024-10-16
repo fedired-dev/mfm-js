@@ -1,0 +1,16 @@
+stages:
+  - dependency
+
+variables:
+  GIT_CLEAN_FLAGS: -ffdx -e target/
+
+renovate:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'schedule'
+  stage: dependency
+  image:
+    name: docker.io/renovate/renovate:37-slim
+    entrypoint:
+      - ""
+  script:
+    - renovate --platform gitlab --token "${API_TOKEN}" --endpoint "${CI_SERVER_URL}/api/v4" "${CI_PROJECT_PATH}"
